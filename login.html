@@ -139,12 +139,12 @@
   </div>
 
   <div class="right-side">
-    <form class="login-form" onsubmit="return validarLogin(event)">
+    <form class="login-form" action="validar.php" method="POST">
       <h2>¡Bienvenido de nuevo a SafeGarden!</h2>
       <p>Inicia sesión en tu cuenta</p>
 
-      <input type="email" id="correo" placeholder="Tu correo electrónico" required>
-      <input type="password" id="clave" placeholder="Contraseña" required>
+      <input type="email" id="correo" name="correo" placeholder="Tu correo electrónico" required>
+      <input type="password" id="clave" name="clave" placeholder="Contraseña" required>
 
       <div class="options">
         <label><input type="checkbox" id="recordar"> Recuérdame</label>
@@ -161,46 +161,30 @@
 </div>
 
 <script>
-  const correoCorrecto = "paulina@gmail.com";
-  const claveCorrecta = "1234";
-
-  // Cargar datos recordados
+  // Recuérdame
   window.onload = () => {
-    const recordado = localStorage.getItem("recordado");
-    if (recordado === "true") {
+    if (localStorage.getItem("recordado") === "true") {
       document.getElementById("correo").value = localStorage.getItem("correo") || "";
       document.getElementById("clave").value = localStorage.getItem("clave") || "";
       document.getElementById("recordar").checked = true;
     }
   };
 
-  function validarLogin(event) {
-    event.preventDefault();
-
-    const correo = document.getElementById("correo").value.trim();
-    const clave = document.getElementById("clave").value.trim();
+  document.querySelector('.login-form').addEventListener('submit', function () {
     const recordar = document.getElementById("recordar").checked;
+    const correo = document.getElementById("correo").value;
+    const clave = document.getElementById("clave").value;
 
-    if (correo === correoCorrecto && clave === claveCorrecta) {
-      if (recordar) {
-        localStorage.setItem("recordado", "true");
-        localStorage.setItem("correo", correo);
-        localStorage.setItem("clave", clave);
-      } else {
-        localStorage.removeItem("recordado");
-        localStorage.removeItem("correo");
-        localStorage.removeItem("clave");
-      }
-
-      alert("Inicio de sesión exitoso.");
-      window.location.href = "dashboard.php"; // Redirige al dashboard
+    if (recordar) {
+      localStorage.setItem("recordado", "true");
+      localStorage.setItem("correo", correo);
+      localStorage.setItem("clave", clave);
     } else {
-      alert("Correo o contraseña incorrectos.");
+      localStorage.clear();
     }
-
-    return false;
-  }
+  });
 </script>
+
 
 </body>
 </html>

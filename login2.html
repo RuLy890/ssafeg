@@ -137,22 +137,16 @@
     </div>
 
     <div class="right-side">
-        <form class="register-form">
+        <form class="register-form" action="registros.php" method="POST">
             <h2>Crea tu cuenta gratuita</h2>
             <p>Ingresa tus datos para registrarte</p>
 
-            <input type="text" placeholder="Nombre completo" required>
-            <select required>
-                <option value="">Tu origen</option>
-                <option value="Ciudad">Ciudad</option>
-                <option value="Pueblo">Pueblo</option>
-                <option value="Otro">Otro</option>
-            </select>
-            <input type="email" placeholder="Tu correo electrónico" required>
-            <input type="password" placeholder="Contraseña" required>
+            <input type="text" name="nombre_completo" placeholder="Nombre completo" required>
+            <input type="email" name="correo_electronico" placeholder="Tu correo electrónico" required>
+            <input type="password" name="contrasena" placeholder="Contraseña" required>
 
             <div class="checkbox-group">
-                <input type="checkbox" id="terms" required>
+                <input type="checkbox" name="acepta_politica" id="terms" required>
                 <label for="terms">Acepto la Política de Seguridad y Privacidad de Sewo</label>
             </div>
 
@@ -164,6 +158,32 @@
         </form>
     </div>
 </div>
+
+<script>
+document.querySelector('.register-form').addEventListener('submit', function(e) {
+    const correo = document.querySelector('input[name="correo_electronico"]').value;
+    const contrasena = document.querySelector('input[name="contrasena"]').value;
+
+    // Regex para validar email
+    const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Regex para contraseña segura (mínimo 8 caracteres, al menos una mayúscula, una minúscula y un número)
+    const contrasenaSegura = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+    if (!correoValido.test(correo)) {
+        alert("Ingresa un correo electrónico válido.");
+        e.preventDefault();
+        return;
+    }
+
+    if (!contrasenaSegura.test(contrasena)) {
+        alert("La contraseña debe tener al menos 8 caracteres, incluyendo una mayúscula, una minúscula y un número.");
+        e.preventDefault();
+        return;
+    }
+});
+</script>
+
 
 </body>
 </html>
